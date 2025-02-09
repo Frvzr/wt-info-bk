@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "wt-activity"
+version = "0.1.0"
+description = ""
+authors = ["ikoposhilov <ikoposhilov@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.4"
+SQLAlchemy = "^2.0.36"
+psycopg2 = "^2.9.10"
+uvicorn = "^0.32.0"
+alembic = "^1.13.3"
+asyncpg = "^0.30.0"
+pydantic-settings = "^2.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
