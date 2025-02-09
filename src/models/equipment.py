@@ -13,4 +13,3 @@ class Equipment(Base):
     tool_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('tool.id'), nullable=False, default=uuid.uuid4, unique=False)
     size_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('size.id'), nullable=True, default=uuid.uuid4, unique=False)
     category_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('category.id'), nullable=True, default=uuid.uuid4, unique=False)
-
