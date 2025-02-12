@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class RedressKitConsist(Base):
     __tablename__ = "redress_kit_consist"
-    redress_kit_id: Mapped[UUID] = mapped_column(UUID, nullable=False, comment="Идентификационный номер набора ЗИП")
+    redress_kit_id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, comment="Идентификационный номер набора ЗИП")
     item_id: Mapped[UUID] = mapped_column(UUID, nullable=False, comment="Идентификационный номер ЗИП")
     version: Mapped[Float] = mapped_column(Float, nullable=False, comment="Версия набора ЗИП")
 
