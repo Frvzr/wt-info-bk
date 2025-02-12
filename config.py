@@ -1,17 +1,22 @@
 import os
-from dotenv import load_dotenv
-from pathlib import Path
-
-env_path = Path('.') / '.env'
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Settings:
-    PROJECT_NAME: str = 'WT info'
-    PROJECT_VERSION: str = "1.0.0"
+class Settings(BaseSettings):
+    DRIVER: str
+    DB_USER: str
+    DB_PASSWORD: str
+    DB_HOST: str
+    DB_PORT: int
+    DB_NAME: str
 
-    PG_USER: str = os.getenv('POSTGRES_USER')
-    PG_PWD: str = os.getenv('POSTGRES_PASSWORD')
-    PG_SERVER: str = os.getenv('POSTGRES_SERVER', 'localhost')
-    PG_PORT: str = os.getenv('POSTGRES_PORT', 5342)
-    PG_DB: str = os.getenv('POSTGRES_DB')
-    DATABASE_URL = (f"")
+    model_config = SettingsConfigDict(
+        env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    )
+
+    def get_db_url(self):
+        return (f"{self.DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@"
+                f"{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}")
+
+
+settings = Settings()
