@@ -15,7 +15,7 @@ class RedressKit(Base):
     id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, default=uuid.uuid4, unique=True)
     name: Mapped[String] = mapped_column(String(32), nullable=False)
     description: Mapped[String] = mapped_column(String(128), nullable=True)
-    service_level: Mapped[UUID] = mapped_column(UUID, nullable=False)   # Если одинаковый кит для двух уровней обслуживания, то надо делать связь m2m
+    service_level: Mapped[UUID] = mapped_column(UUID, nullable=False)
 
     redress_kit: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
