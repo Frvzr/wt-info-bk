@@ -17,7 +17,7 @@ class RedressKit(Base):
     description: Mapped[String] = mapped_column(String(128), nullable=True)
     service_level: Mapped[UUID] = mapped_column(UUID, nullable=False)
 
-    redress_kit: Mapped[list['RedressKitConsist']] = relationship(
+    redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
         primaryjoin='RedressKit.id == RedressKitConsist.redress_kit_id',
         back_populates='redress_kit',
