@@ -1,8 +1,7 @@
 from .base import BaseDAO
 from src.models.item import Item
 from sqlalchemy.ext.asyncio import AsyncSession
-from database import connection
-from asyncio import run
+from sqlalchemy import select
 
 
 class ItemDAO(BaseDAO):
@@ -30,3 +29,16 @@ class ItemDAO(BaseDAO):
         await session.commit()
 
         return item
+
+    @classmethod
+    async def get_all_items(cls, session: AsyncSession):
+        # Создаем запрос для выборки всех пользователей
+        query = select(cls.model)
+
+        # Выполняем запрос и получаем результат
+        result = await session.execute(query)
+
+        # Извлекаем записи как объекты модели
+        records = result.scalars().all()
+
+        return records
