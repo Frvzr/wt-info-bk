@@ -11,7 +11,7 @@ async def add_item(item_data: dict, session: AsyncSession):
     return new_item.id
 
 item_data_t006 = {
-    "name": "T006",
+    "name": "T007",
     "description": "o-ring"
 }
 
