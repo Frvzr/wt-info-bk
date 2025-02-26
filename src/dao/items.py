@@ -10,18 +10,19 @@ class ItemDAO(BaseDAO):
     @classmethod
     async def add_item(cls, session: AsyncSession, item_data: dict) -> Item:
         """
-                Добавляет пользователя и привязанный к нему профиль.
+            Добавляет item с категорией.
 
-                Аргументы:
-                - session: AsyncSession - асинхронная сессия базы данных
-                - item_data: dict - словарь с данными пользователя и профиля
+            Аргументы:
+            - session: AsyncSession - асинхронная сессия базы данных
+            - item_data: dict - словарь с данными
 
-                Возвращает:
-                - Item - объект item
-                """
+            Возвращает:
+            - Item - объект item
+        """
         item = cls.model(
             name=item_data['name'],
-            description=item_data['description']
+            description=item_data['description'],
+            category=item_data['category']
         )
         session.add(item)
         await session.flush()

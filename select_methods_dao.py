@@ -7,10 +7,6 @@ from asyncio import run
 async def select_all_items(session):
     return await ItemDAO.get_all_items(session)
 
-# all_items = run(select_all_items())
-# for i in all_items
-#     data = {'name': i.name, 'descritpion': i.description}
-#     print(data)
 
 all_items = run(select_all_items())
 for i in all_items:
