@@ -43,3 +43,18 @@ class ItemDAO(BaseDAO):
         records = result.scalars().all()
 
         return records
+
+    @classmethod
+    async def get_items_id(cls, session: AsyncSession):
+        query = select(cls.model.id, cls.model.name)
+        print(query)
+        result = await session.execute(query)
+        records = result.all()
+        return records
+
+    @classmethod
+    async def get_item_by_name(cls, session: AsyncSession, item: str):
+        query = select(cls.model).filter(cls.model.name == item)
+        result = await session.execute(query)
+        item_info = result.scalar_one_or_none()
+        return item_info
