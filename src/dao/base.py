@@ -1,6 +1,7 @@
 from typing import List, Any, Dict
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 
 class BaseDAO:
@@ -27,3 +28,17 @@ class BaseDAO:
             await session.rollback()
             raise e
         return new_instances
+
+    @classmethod
+    async def find_one_or_none(cls, session: AsyncSession, **filter_by):
+        query = select(cls.model).filter_by(**filter_by)
+        result = await session.execute(query)
+        record = result.scalar_one_or_none()
+        return record
+
+    @classmethod
+    async def find_all(cls, session: AsyncSession, **filter_by):
+        query = select(cls.model).filter_by(**filter_by)
+        result = await session.execute(query)
+        records = result.scalars().all()
+        return records
