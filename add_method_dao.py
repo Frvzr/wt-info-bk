@@ -1,4 +1,4 @@
-from database import connection
+from src.dao.database import connection
 from asyncio import run
 from sqlalchemy.ext.asyncio import AsyncSession
 

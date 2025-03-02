@@ -1,10 +1,10 @@
 from .base import BaseDAO
-from src.models.item import Item
+from src.models import Item, Category
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 
-class ItemDAO(BaseDAO):
+class ItemDAO(BaseDAO[Item]):
     model = Item
 
     @classmethod
@@ -58,3 +58,17 @@ class ItemDAO(BaseDAO):
         result = await session.execute(query)
         item_info = result.scalar_one_or_none()
         return item_info
+
+    @classmethod
+    async def get_item_with_category(cls, session: AsyncSession):
+        query = (select(cls.model.id,
+                        cls.model.name.label('item_name'),
+                        cls.model.description.label('item_description'),
+                        Category.name.label('category_name'),
+                        Category.description.label('category_description'))
+                 .select_from(cls.model)
+                 .join(Category))
+        result = await session.execute(query)
+        records = result.all()
+        return list(records)
+
