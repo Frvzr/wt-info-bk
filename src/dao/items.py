@@ -1,7 +1,8 @@
-from .base import BaseDAO
-from src.models import Item, Category
+from uuid import uuid4
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from .base import BaseDAO
+from src.models import Item, Category
 
 
 class ItemDAO(BaseDAO[Item]):
@@ -71,4 +72,3 @@ class ItemDAO(BaseDAO[Item]):
         result = await session.execute(query)
         records = result.all()
         return list(records)
-
