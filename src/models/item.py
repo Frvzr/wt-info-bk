@@ -15,11 +15,18 @@ class Item(Base):
     id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, default=uuid.uuid4, unique=True)
     name: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
     description: Mapped[String] = mapped_column(String(128), nullable=True)
-    category: Mapped[UUID] = mapped_column(UUID, ForeignKey('category.id'), nullable=True, unique=False)
+    category_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('category.id'), nullable=True, unique=False)
 
     redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
         primaryjoin='Item.id == RedressKitConsist.item_id',
         back_populates='item',
         foreign_keys='RedressKitConsist.item_id'
+    )
+
+    category: Mapped['Category'] = relationship(
+        'Category',
+        primaryjoin='Item.id == Category.id',
+        back_populates='item',
+        foreign_keys='Category.id'
     )
