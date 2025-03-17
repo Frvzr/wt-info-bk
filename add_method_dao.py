@@ -1,4 +1,4 @@
-from src.dao.database import connection
+from src.db.session_maker import connection
 from asyncio import run
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -7,7 +7,7 @@ from src.dao.categories import CategoryDAO
 
 @connection
 async def add_item(item_data: dict, session: AsyncSession):
-    new_item = await ItemDAO.add_item(session=session, item_data=item_data)
+    new_item = await ItemDAO.create(session=session, item_data=item_data)
     print(f"Added new item with ID: {new_item.id}")
     return new_item.id
 

@@ -9,7 +9,7 @@ class ItemDAO(BaseDAO[Item]):
     model = Item
 
     @classmethod
-    async def add_item(cls, session: AsyncSession, item_data: dict) -> Item:
+    async def create(cls, session: AsyncSession, item_data: dict) -> Item:
         """
             Добавляет item с категорией.
 
@@ -27,13 +27,11 @@ class ItemDAO(BaseDAO[Item]):
         )
         session.add(item)
         await session.flush()
-
         await session.commit()
-
         return item
 
     @classmethod
-    async def get_all_items(cls, session: AsyncSession):
+    async def get_all(cls, session: AsyncSession):
         # Создаем запрос для выборки всех пользователей
         query = select(cls.model)
 
@@ -46,7 +44,7 @@ class ItemDAO(BaseDAO[Item]):
         return records
 
     @classmethod
-    async def get_items_id(cls, session: AsyncSession):
+    async def get_by_id(cls, session: AsyncSession):
         query = select(cls.model.id, cls.model.name)
         print(query)
         result = await session.execute(query)

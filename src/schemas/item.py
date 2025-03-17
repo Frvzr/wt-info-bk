@@ -7,7 +7,8 @@ class ItemSchema(BaseModel):
     id: UUID4
     name: str
     description: str | None
-    category: UUID4 | None
+    category_id: UUID4 | None
+
 
     model_config = ConfigDict(from_attributes=True)
 
