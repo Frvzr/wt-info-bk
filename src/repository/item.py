@@ -20,11 +20,8 @@ class ItemRepository:
                         Category.description.label('category_description'))
                  .select_from(Item)
                  .join(Category, isouter=True))
-        print(query)
         result = await self.session.execute(query)
-        print(result)
         records = result.all()
-        print(records)
         return list(records)
 
     async def create(self, item: Item):

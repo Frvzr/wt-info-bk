@@ -7,7 +7,8 @@ from .base import Base
 
 
 class Asset(Base):
-    __tablename__ = "asset"
+    __tablename__ = "assets"
     id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, default=uuid.uuid4, unique=True)
     serial_number: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
     equipment_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('equipment.id'), nullable=False, default=uuid.uuid4, unique=False)
+    is_active: Mapped[bool] = mapped_column(default=True)

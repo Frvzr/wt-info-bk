@@ -9,6 +9,9 @@ from .part import Part
 from .service_level import ServiceLevel
 from .size import Size
 from .tool import Tool
+from .user import User
+from .role import Role
+from .user_role import UserRole
 
 __all__ = [
     'Item',
@@ -21,5 +24,8 @@ __all__ = [
     'Part',
     'ServiceLevel',
     'Size',
-    'Tool'
+    'Tool',
+    'User',
+    'Role',
+    'UserRole'
 ]
