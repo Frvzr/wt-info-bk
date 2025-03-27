@@ -3,7 +3,7 @@ from uuid import uuid4
 from pydantic import create_model
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.dao.items import ItemDAO
-from src.dao.session_maker import connection
+from src.db.session_maker import connection
 
 
 @connection(commit=True)

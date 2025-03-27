@@ -5,10 +5,20 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+from src.core.config import settings
+from src.routers.v1.item import router as item_router
+from src.routers.v1.auth import router as auth_router
+from src.routers.v1.asset_router import router as assets_router
 
 app = FastAPI(
     title="WTE",
+    version="1.0.0",
+    debug=settings.DEBUG
 )
+
+app.include_router(item_router)
+app.include_router(auth_router)
+app.include_router(assets_router)
 
 # Настройка CORS middleware для разрешения запросов с вашего фронтенда
 app.add_middleware(

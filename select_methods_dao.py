@@ -1,18 +1,18 @@
 from src.dao.items import ItemDAO
-from src.dao.session_maker import connection
+from src.db.session_maker import connection
 from asyncio import run
-from src.schemas.item import ItemNameIdSchema, ItemWithCategory, ItemSchema
+from src.schemas.item import ItemNameIdSchema, ItemSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @connection(isolation_level="READ COMMITTED")
 async def select_all_items(session):
-    return await ItemDAO.get_all_items(session)
+    return await ItemDAO.get_all(session)
 
 
 @connection(isolation_level="READ COMMITTED")
 async def select_items_id(session):
-    return await ItemDAO.get_items_id(session)
+    return await ItemDAO.get_by_id(session)
 
 
 @connection(isolation_level="READ COMMITTED")
