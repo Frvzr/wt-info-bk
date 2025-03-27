@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class Category(Base):
-    __tablename__ = "categories"
+    __tablename__ = "category"
     id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, default=uuid.uuid4, unique=True)
     name: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
     description: Mapped[String | None] = mapped_column(String(128), nullable=True)

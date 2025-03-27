@@ -1,6 +1,5 @@
 
 from ..repository.item import ItemRepository
-from ..schemas.item import ItemSchema
 from src.models.item import Item
 
 

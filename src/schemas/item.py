@@ -1,14 +1,11 @@
 from pydantic import BaseModel, ConfigDict, UUID4
 
-from .category import CategorySchema
-
 
 class ItemSchema(BaseModel):
     id: UUID4
     name: str
     description: str | None
     category_id: UUID4 | None
-
 
     model_config = ConfigDict(from_attributes=True)
 
