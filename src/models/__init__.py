@@ -12,6 +12,12 @@ from .tool import Tool
 from .user import User
 from .role import Role
 from .user_role import UserRole
+from .checklist_steps import ChecklistSteps
+from .checklist_templates import ChecklistTemplate
+from .service_equipment import ServiceEquipment
+from .template_equipment import TemplateEquipment
+from .template_steps import TemplateSteps
+from .service_steps import ServiceSteps
 
 __all__ = [
     'Item',
@@ -27,5 +33,11 @@ __all__ = [
     'Tool',
     'User',
     'Role',
-    'UserRole'
+    'UserRole',
+    'ChecklistSteps',
+    'ChecklistTemplate',
+    'ServiceEquipment',
+    'TemplateEquipment',
+    'TemplateSteps',
+    'ServiceSteps'
 ]
