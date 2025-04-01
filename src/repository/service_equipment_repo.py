@@ -1,6 +1,8 @@
+from uuid import uuid4
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from src.models import ServiceEquipment, Asset, ServiceLevel, Location
+from src.models import (ServiceEquipment, Asset, ServiceLevel, Location, TemplateEquipment,
+                        ChecklistTemplate,TemplateSteps, ChecklistSteps, ServiceSteps)
 
 
 class ServiceEquipmentRepository:
@@ -20,6 +22,21 @@ class ServiceEquipmentRepository:
             .join(Asset, isouter=True)
             .join(ServiceLevel)
             .join(Location)
+        )
+        result = query.all()
+        return list(result)
+
+    async def get_service_equipment_with_checklist(self, asset_id: uuid4) -> list:
+        query = await self.session.execute(
+            select(
+                   ChecklistSteps.name,
+                   ServiceSteps.answer,
+                   ServiceSteps.technician,
+                   ServiceSteps.completed_date
+                   )
+            .select_from(ServiceSteps)
+            .join(ChecklistSteps)
+            .where(ServiceEquipment.id == asset_id)
         )
         result = query.all()
         return list(result)
