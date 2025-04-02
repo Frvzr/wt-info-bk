@@ -12,3 +12,12 @@ class ServiceEquipmentSchema(BaseModel):
     is_completed: bool
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class RedressSchema(BaseModel):
+    name: str
+    answer: str | None = None
+    technician: str | None = None
+    completed_date: str | None = None
+
+    model_config = ConfigDict(from_attributes=True)

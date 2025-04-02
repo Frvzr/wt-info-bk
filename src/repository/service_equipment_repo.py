@@ -26,7 +26,7 @@ class ServiceEquipmentRepository:
         result = query.all()
         return list(result)
 
-    async def get_service_equipment_with_checklist(self, asset_id: uuid4) -> list:
+    async def get_redress_by_id(self, redress_id: uuid4) -> list:
         query = await self.session.execute(
             select(
                    ChecklistSteps.name,
@@ -36,7 +36,7 @@ class ServiceEquipmentRepository:
                    )
             .select_from(ServiceSteps)
             .join(ChecklistSteps)
-            .where(ServiceEquipment.id == asset_id)
+            .where(ServiceEquipment.id == redress_id)
         )
         result = query.all()
         return list(result)
