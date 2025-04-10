@@ -21,3 +21,13 @@ class RedressSchema(BaseModel):
     completed_date: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class RedressByIDSchema(BaseModel):
+    step: str
+    description: str
+    answer: str | None = None
+    technician: str | None = None
+    completed_date: datetime | None = None
+
+    model_config = ConfigDict(from_attributes=True)

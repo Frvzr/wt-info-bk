@@ -29,10 +29,11 @@ class ServiceEquipmentRepository:
     async def get_redress_by_id(self, redress_id: uuid4) -> list:
         query = await self.session.execute(
             select(
-                   ChecklistSteps.name,
-                   ServiceSteps.answer,
-                   ServiceSteps.technician,
-                   ServiceSteps.completed_date
+                    ChecklistSteps.name.label('step'),
+                    ChecklistSteps.description,
+                    ServiceSteps.answer,
+                    ServiceSteps.technician,
+                    ServiceSteps.completed_date
                    )
             .select_from(ServiceSteps)
             .join(ChecklistSteps)
