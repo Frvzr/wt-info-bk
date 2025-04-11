@@ -11,10 +11,10 @@ if TYPE_CHECKING:
 
 class RedressKitConsist(Base):
     __tablename__ = "redress_kit_consist"
-    redress_kit_id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, comment="Идентификационный номер набора ЗИП")
+    redress_kit_id: Mapped[UUID] = mapped_column(UUID, nullable=False, comment="Идентификационный номер набора ЗИП")
     item_id: Mapped[UUID] = mapped_column(UUID, nullable=False, comment="Идентификационный номер ЗИП")
     quantity: Mapped[Float] = mapped_column(Float, nullable=False, comment="Количество")
-    revision: Mapped[Float] = mapped_column(Float, nullable=False, comment="Версия набора ЗИП")
+    revision: Mapped[String] = mapped_column(String(32), nullable=False, comment="Версия набора ЗИП")
 
     redress_kit: Mapped[list['RedressKit']] = relationship(
         'RedressKit',
@@ -28,4 +28,8 @@ class RedressKitConsist(Base):
         primaryjoin='Item.id == RedressKitConsist.item_id',
         back_populates='redress_kit_consist',
         foreign_keys='RedressKitConsist.item_id'
+    )
+
+    __table_args__ = (
+        PrimaryKeyConstraint('redress_kit_id', 'item_id', 'revision'),
     )

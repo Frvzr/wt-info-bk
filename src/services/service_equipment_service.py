@@ -1,5 +1,5 @@
 from src.repository.service_equipment_repo import ServiceEquipmentRepository
-from src.models.service_equipment import ServiceEquipment
+from src.models import ServiceEquipment
 
 
 class ServiceEquipmentService:

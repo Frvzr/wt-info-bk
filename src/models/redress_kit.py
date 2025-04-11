@@ -1,7 +1,7 @@
 import uuid
 from typing import TYPE_CHECKING
 
-from sqlalchemy import UUID, String
+from sqlalchemy import UUID, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -15,7 +15,8 @@ class RedressKit(Base):
     id: Mapped[UUID] = mapped_column(UUID, primary_key=True, nullable=False, default=uuid.uuid4, unique=True)
     name: Mapped[String] = mapped_column(String(32), nullable=False)
     description: Mapped[String] = mapped_column(String(128), nullable=True)
-    service_level: Mapped[UUID] = mapped_column(UUID, nullable=False)
+    service_level: Mapped[UUID] = mapped_column(UUID, ForeignKey('service_level.id'), nullable=False)
+    actual_revision: Mapped[String] = mapped_column(String(32), nullable=True)  # поменять на False
 
     redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
