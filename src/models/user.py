@@ -15,6 +15,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id: Mapped[UUID] = mapped_column(UUID, primary_key=True, index=True)
+    alias: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String(255))
     is_active: Mapped[bool] = mapped_column(default=True)

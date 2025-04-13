@@ -9,6 +9,8 @@ from src.core.config import settings
 from src.routers.v1.item import router as item_router
 from src.routers.v1.auth import router as auth_router
 from src.routers.v1.asset_router import router as assets_router
+from src.routers.v1.service_equipment_router import router as se_router
+from src.routers.v1.redress_kit_router import router as rk_router
 
 app = FastAPI(
     title="WTE",
@@ -19,6 +21,9 @@ app = FastAPI(
 app.include_router(item_router)
 app.include_router(auth_router)
 app.include_router(assets_router)
+app.include_router(se_router)
+app.include_router(rk_router)
+
 
 # Настройка CORS middleware для разрешения запросов с вашего фронтенда
 app.add_middleware(
