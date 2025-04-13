@@ -15,6 +15,7 @@ async def get_all_activity(db: AsyncSession = Depends(get_db)):
     service = ServiceEquipmentService(repository)
     return await service.get_all_service_equipments()
 
+
 @router.get('/activity/{id}', response_model=list[RedressByIDSchema])
 async def get_redress_by_id(id: str, db: AsyncSession = Depends(get_db)):
     repository = ServiceEquipmentRepository(db)

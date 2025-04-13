@@ -9,12 +9,12 @@ class RedressKitRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_all(self) -> list[RedressKit]:
+    async def get_all(self) -> list:
         query = await self.session.execute(
             select(
                 RedressKit.name.label('redress_kit'),
                 RedressKit.description,
-                ServiceLevel.name.lable('level')
+                ServiceLevel.name.label('level')
             )
             .select_from(RedressKit)
             .join(ServiceLevel)
@@ -39,11 +39,9 @@ class RedressKitRepository:
         result = query.all()
         return list(result)
 
-    async def get_redress_kit_consict_by_name(self, name: str) -> list:
+    async def get_redress_kit_consist_by_name(self, name: str) -> list:
         query = await self.session.execute(
             select(
-                RedressKit.name.label('redress_kit'),
-                RedressKit.description.label('desc_redress_kit'),
                 Item.name.label('item'),
                 Item.description.label('desc_item'),
                 RedressKitConsist.quantity,

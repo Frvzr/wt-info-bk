@@ -9,8 +9,11 @@ class AssetRepository:
 
     async def get_all(self):
         query = await self.session.execute(
-            select(Asset.serial_number,
-                   Equipment.part_number)
+            select(
+                Asset.id,
+                Asset.serial_number,
+                Equipment.part_number,
+                Equipment.description)
             .select_from(Asset)
             .join(Equipment, isouter=True))
 
