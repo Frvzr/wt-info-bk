@@ -16,6 +16,10 @@ class Item(Base):
     name: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
     description: Mapped[String] = mapped_column(String(128), nullable=True)
     category_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('category.id'), nullable=True, unique=False)
+    group_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('groups.id'), nullable=True, unique=False)
+    source_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('sources.id'), nullable=True, unique=False)
+    operation_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('operations.id'), nullable=True, unique=False)
+    department_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('departments.id'), nullable=True, unique=False)
 
     redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
