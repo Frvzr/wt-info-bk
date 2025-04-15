@@ -26,7 +26,6 @@ def upgrade() -> None:
     op.drop_constraint('departments_description_key', 'departments', type_='unique')
     op.create_unique_constraint(None, 'departments', ['id'])
     op.create_unique_constraint(None, 'groups', ['id'])
-    op.drop_column('groups', 'description')
     op.alter_column('operations', 'description',
                existing_type=sa.VARCHAR(length=512),
                nullable=True)
@@ -52,7 +51,6 @@ def downgrade() -> None:
     op.alter_column('operations', 'description',
                existing_type=sa.VARCHAR(length=512),
                nullable=False)
-    op.add_column('groups', sa.Column('description', sa.VARCHAR(length=50), autoincrement=False, nullable=True))
     op.drop_constraint(None, 'groups', type_='unique')
     op.drop_constraint(None, 'departments', type_='unique')
     op.create_unique_constraint('departments_description_key', 'departments', ['description'])
