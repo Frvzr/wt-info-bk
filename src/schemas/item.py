@@ -18,10 +18,13 @@ class ItemNameIdSchema(BaseModel):
 
 class ItemWithCategory(BaseModel):
     id: UUID4
-    item_name: str
-    item_description: str | None
-    category_name: str | None
-    category_description: str | None
+    item: str
+    item_description: str | None = None
+    category: str | None = None
+    group: str | None = None
+    source: str | None = None
+    operation: str | None = None
+    department: str | None = None
 
     class Config:
         from_attributes = True
