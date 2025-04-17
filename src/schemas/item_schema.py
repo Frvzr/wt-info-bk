@@ -1,4 +1,5 @@
-from pydantic import BaseModel, ConfigDict, UUID4
+from pydantic import BaseModel, ConfigDict, UUID4, field_validator, ValidationInfo
+from typing import Optional
 
 
 class ItemSchema(BaseModel):
@@ -33,6 +34,11 @@ class ItemUpdateSchema(BaseModel):
     source_id: UUID4 | None = None
     operation_id: UUID4 | None = None
     department_id: UUID4 | None = None
+
+    @field_validator('*', mode='before')
+    @classmethod
+    def empty_str_to_none(cls, v: str) -> Optional[str]:
+        return None if v == "" else v
 
     model_config = ConfigDict(from_attributes=True)
 

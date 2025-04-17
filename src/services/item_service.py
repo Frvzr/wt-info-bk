@@ -14,16 +14,19 @@ class ItemService:
         item = await self.repository.create(data.model_dump())
         return ItemSchema.model_validate(item.__dict__)
 
-    async def update_item(self, item_id: int, data: ItemUpdateSchema) -> ItemSchema:
+    async def update_item(self, item_id: str, data: ItemUpdateSchema) -> ItemSchema:
         item = await self.repository.update(item_id, data.model_dump(exclude_unset=True))
         if not item:
             raise ValueError("Item not found")
-        return ItemSchema.model_validate(item)
+        return ItemSchema.model_validate(item.__dict__)
 
-    async def patch_item(self, item_id: int, data: ItemUpdateSchema) -> ItemSchema:
-        return await self.update_item(item_id, data)
+    async def patch_item(self, item_id: str, data: ItemUpdateSchema) -> ItemSchema:
+        item = await self.repository.patch(item_id, data.model_dump(exclude_unset=True))
+        if not item:
+            raise ValueError("Item not found")
+        return ItemSchema.model_validate(item.__dict__)
 
-    async def get_item(self, item_id: int) -> ItemSchema:
+    async def get_item(self, item_id: str) -> ItemSchema:
         item = await self.repository.get_by_id(item_id)
         if not item:
             raise ValueError("Item not found")

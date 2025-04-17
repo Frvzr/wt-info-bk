@@ -33,7 +33,19 @@ class ItemRepository:
         return item
 
     async def patch(self, item_id: uuid4, data: dict) -> Item | None:
-        return await self.update(item_id, data)
+        result = await self.session.execute(
+            select(Item).where(Item.id == item_id)
+        )
+        item = result.scalars().first()
+        for key, value in data.items():
+            if value == "":
+                setattr(item, key, None)
+            else:
+                setattr(item, key, value)
+
+        await self.session.commit()
+        await self.session.refresh(item)
+        return item
 
     async def get_all(self):
         result = await self.session.execute(select(Item))
