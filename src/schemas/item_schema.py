@@ -44,8 +44,8 @@ class ItemUpdateSchema(BaseModel):
 
 class ItemWithCategory(BaseModel):
     id: UUID4
-    item: str
-    item_description: str | None = None
+    name: str
+    description: str | None = None
     category: str | None = None
     group: str | None = None
     source: str | None = None

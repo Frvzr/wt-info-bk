@@ -66,8 +66,8 @@ class ItemRepository:
 
     async def get_items_with_category(self) -> list:
         query = (select(Item.id,
-                        Item.name.label('item'),
-                        Item.description.label('item_description'),
+                        Item.name,
+                        Item.description,
                         Category.name.label('category'),
                         Group.name.label('group'),
                         Source.name.label('source'),
@@ -80,6 +80,7 @@ class ItemRepository:
                  .join(Source, isouter=True)
                  .join(Operation, isouter=True)
                  .join(Department, isouter=True)
+                 .limit(1000)
                  )
         result = await self.session.execute(query)
         records = result.all()
