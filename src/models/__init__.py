@@ -18,6 +18,11 @@ from .service_equipment import ServiceEquipment
 from .template_equipment import TemplateEquipment
 from .template_steps import TemplateSteps
 from .service_steps import ServiceSteps
+from .group import Group
+from .source import Source
+from .operation import Operation
+from .department import Department
+
 
 __all__ = [
     'Item',
@@ -39,5 +44,9 @@ __all__ = [
     'ServiceEquipment',
     'TemplateEquipment',
     'TemplateSteps',
-    'ServiceSteps'
+    'ServiceSteps',
+    'Group',
+    'Source',
+    'Operation',
+    'Department'
 ]
