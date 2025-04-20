@@ -39,7 +39,7 @@ class RedressKitRepository:
         result = query.all()
         return list(result)
 
-    async def get_redress_kit_consist_by_name(self, name: str) -> list:
+    async def get_redress_kit_consist_by_id(self, id: str) -> list:
         query = await self.session.execute(
             select(
                 Item.name.label('item'),
@@ -50,7 +50,7 @@ class RedressKitRepository:
             .select_from(RedressKitConsist)
             .join(RedressKit)
             .join(Item)
-            .where(RedressKit.name == name)
+            .where(RedressKit.id == id)
             )
         result = query.all()
         return list(result)

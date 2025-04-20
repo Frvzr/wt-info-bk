@@ -21,9 +21,9 @@ class RedressKitsWithItemsSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class RedressKitsWithItemsSchemaByName(BaseModel):
+class RedressKitsWithItemsSchemaById(BaseModel):
     item: str
-    desc_item: str
+    desc_item: str | None = None
     quantity: float
     revision: str
 
