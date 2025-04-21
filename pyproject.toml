@@ -15,7 +15,7 @@ alembic = "^1.13.3"
 asyncpg = "^0.30.0"
 pydantic-settings = "^2.6.0"
 markdown2 = "^2.5.3"
-python-jose = {version = "3.3.0", extras = ["cryptography"]}
+python-jose = {version = "3.4.0", extras = ["cryptography"]}
 passlib = "1.7.4"
 pydantic = {extras = ["email"], version = "^2.10.6"}
 python-multipart = "^0.0.20"
