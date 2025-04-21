@@ -11,22 +11,22 @@ if TYPE_CHECKING:
 
 class RedressKitConsist(Base):
     __tablename__ = "redress_kit_consist"
-    redress_kit_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('redress_kit.id'), nullable=False, comment="Идентификационный номер набора ЗИП")
+    redress_kit_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('item.id'), nullable=False, comment="Идентификационный номер набора ЗИП")
     item_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('item.id'), nullable=False, comment="Идентификационный номер ЗИП")
     quantity: Mapped[Float] = mapped_column(Float, nullable=False, comment="Количество")
     revision: Mapped[String] = mapped_column(String(32), nullable=False, comment="Версия набора ЗИП")
 
-    redress_kit: Mapped[list['RedressKit']] = relationship(
-        'RedressKit',
-        primaryjoin='RedressKit.id == RedressKitConsist.redress_kit_id',
-        back_populates='redress_kit_consist',
+    redress_kit1: Mapped[list['Item']] = relationship(
+        'Item',
+        primaryjoin='Item.id == RedressKitConsist.redress_kit_id',
+        back_populates='redress_kit2',
         foreign_keys='RedressKitConsist.redress_kit_id'
     )
 
-    item: Mapped[list['Item']] = relationship(
+    item1: Mapped[list['Item']] = relationship(
         'Item',
         primaryjoin='Item.id == RedressKitConsist.item_id',
-        back_populates='redress_kit_consist',
+        back_populates='redress_kit_consist1',
         foreign_keys='RedressKitConsist.item_id'
     )
 
