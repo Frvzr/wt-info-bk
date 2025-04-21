@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
-    from ..models import RedressKitConsist, Category
+    from ..models import RedressKitConsist, Category, RedressKit
 
 
 class Item(Base):
@@ -21,10 +21,10 @@ class Item(Base):
     operation_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('operations.id'), nullable=True, unique=False)
     department_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('departments.id'), nullable=True, unique=False)
 
-    redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
+    redress_kit_consist1: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
         primaryjoin='Item.id == RedressKitConsist.item_id',
-        back_populates='item',
+        back_populates='item1',
         foreign_keys='RedressKitConsist.item_id'
     )
 
@@ -33,4 +33,11 @@ class Item(Base):
         primaryjoin='Item.id == Category.id',
         back_populates='item',
         foreign_keys='Category.id'
+    )
+
+    redress_kit2: Mapped[list['Item']] = relationship(
+        'RedressKitConsist',
+        primaryjoin='RedressKitConsist.redress_kit_id == Item.id',
+        back_populates='redress_kit1',
+        foreign_keys='RedressKitConsist.redress_kit_id'
     )

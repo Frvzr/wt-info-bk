@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict, UUID4
 class RedressKitsSchema(BaseModel):
     redress_kit: str
     description: str | None = None
+    actual_revision: str
     level: str
 
     model_config = ConfigDict(from_attributes=True)
@@ -21,9 +22,11 @@ class RedressKitsWithItemsSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class RedressKitsWithItemsSchemaByName(BaseModel):
-    item: str
-    desc_item: str
+class RedressKitsWithItemsSchemaById(BaseModel):
+    kit_id: UUID4
+    kit_name: str
+    component_id: UUID4
+    component_name: str
     quantity: float
     revision: str
 

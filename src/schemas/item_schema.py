@@ -14,6 +14,7 @@ class ItemSchema(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 class ItemCreateSchema(BaseModel):
     name: str
     description: str | None = None
@@ -41,6 +42,7 @@ class ItemUpdateSchema(BaseModel):
         return None if v == "" else v
 
     model_config = ConfigDict(from_attributes=True)
+
 
 class ItemWithCategory(BaseModel):
     id: UUID4
