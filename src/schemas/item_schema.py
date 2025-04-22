@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, UUID4, field_validator, ValidationInfo
+from pydantic import BaseModel, ConfigDict, UUID4, field_validator
 from typing import Optional
 
 

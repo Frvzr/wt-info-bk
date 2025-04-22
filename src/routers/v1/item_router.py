@@ -45,39 +45,38 @@ async def get_item_with_description(db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/{id}", response_model=ItemSchema)
-async def get_item(item_id: str, db: AsyncSession = Depends(get_db)):
+async def get_item(id: str, db: AsyncSession = Depends(get_db)):
     try:
         repository = ItemRepository(db)
         service = ItemService(repository)
-        return await service.get_item(item_id)
+        return await service.get_item(id)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 
-@router.put("/{id}", response_model=ItemSchema)
+@router.put("/{id}", response_model=ItemUpdateSchema)
 async def update_item(
-        item_id: str,
+        id: str,
         data: ItemUpdateSchema,
         db: AsyncSession = Depends(get_db)
 ):
     try:
         repository = ItemRepository(db)
         service = ItemService(repository)
-        return await service.update_item(item_id, data)
+        return await service.update_item(id, data)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 
 @router.patch("/{id}", response_model=ItemSchema)
 async def partial_update_item(
-        item_id: str,
+        id: str,
         data: ItemUpdateSchema,
         db: AsyncSession = Depends(get_db)
 ):
     try:
-        print(item_id, data)
         repository = ItemRepository(db)
         service = ItemService(repository)
-        return await service.patch_item(item_id, data)
+        return await service.patch_item(id, data)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
