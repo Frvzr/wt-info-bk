@@ -9,7 +9,7 @@ from src.core.config import settings
 from src.routers.v1.item_router import router as item_router
 from src.routers.v1.auth import router as auth_router
 from src.routers.v1.asset_router import router as assets_router
-from src.routers.v1.service_equipment_router import router as se_router
+from src.routers.v1.redress_equipment_router import router as se_router
 from src.routers.v1.redress_kit_router import router as rk_router
 from src.routers.v1.reference_router import router as reference_router
 

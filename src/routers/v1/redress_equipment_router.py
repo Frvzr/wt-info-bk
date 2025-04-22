@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.repository.service_equipment_repo import ServiceEquipmentRepository
-from src.services.service_equipment_service import ServiceEquipmentService
+from src.services.redress_equipment_service import ServiceEquipmentService
 from src.schemas.service_equipment_schema import ServiceEquipmentSchema, RedressByIDSchema
 from src.db.database import get_db
 

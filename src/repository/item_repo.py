@@ -80,7 +80,6 @@ class ItemRepository:
                  .join(Source, isouter=True)
                  .join(Operation, isouter=True)
                  .join(Department, isouter=True)
-                 .limit(1000)
                  )
         result = await self.session.execute(query)
         records = result.all()
