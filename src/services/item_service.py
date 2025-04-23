@@ -1,6 +1,7 @@
+from uuid import uuid4
 from ..repository.item_repo import ItemRepository
 from src.models.item import Item
-from src.schemas.item_schema import ItemCreateSchema, ItemUpdateSchema, ItemSchema
+from src.schemas.item_schema import ItemCreateSchema, ItemUpdateSchema, ItemSchema, ItemWithCategory
 
 
 class ItemService:
@@ -26,11 +27,11 @@ class ItemService:
             raise ValueError("Item not found")
         return ItemSchema.model_validate(item.__dict__)
 
-    async def get_item(self, item_id: str) -> ItemSchema:
-        item = await self.repository.get_by_id(item_id)
+    async def get_item(self, id: str):
+        item = await self.repository.get_by_id(id)
         if not item:
             raise ValueError("Item not found")
-        return ItemSchema.model_validate(item)
+        return ItemWithCategory.model_validate(item)
 
     async def get_all_items(self) -> list[Item]:
         return await self.repository.get_all()

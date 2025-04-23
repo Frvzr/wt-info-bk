@@ -51,11 +51,27 @@ class ItemRepository:
         result = await self.session.execute(select(Item))
         return result.scalars().all()
 
-    async def get_by_id(self, item_id: uuid4) -> Item | None:
+    async def get_by_id(self, id: str) -> str | None:
         result = await self.session.execute(
-            select(Item).where(Item.id == item_id)
+            select(Item.id,
+                   Item.name,
+                   Item.description,
+                   Category.name.label('category'),
+                   Group.name.label('group'),
+                   Source.name.label('source'),
+                   Operation.name.label('operation'),
+                   Department.name.label('department')
+                   )
+            .select_from(Item)
+            .join(Category, isouter=True)
+            .join(Group, isouter=True)
+            .join(Source, isouter=True)
+            .join(Operation, isouter=True)
+            .join(Department, isouter=True)
+            .where(Item.id == id)
         )
-        return result.scalars().first()
+        print(result.all())
+        return result.all()
 
     async def get_id_by_name(self, name: str) -> str | None:
         result = await self.session.execute(

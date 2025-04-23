@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -44,7 +46,7 @@ async def get_item_with_description(db: AsyncSession = Depends(get_db)):
     return await service.get_items_with_category()
 
 
-@router.get("/{id}", response_model=ItemSchema)
+@router.get("/{id}", response_model=ItemWithCategory)
 async def get_item(id: str, db: AsyncSession = Depends(get_db)):
     try:
         repository = ItemRepository(db)
