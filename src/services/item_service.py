@@ -33,6 +33,12 @@ class ItemService:
             raise ValueError("Item not found")
         return ItemWithCategory.model_validate(item)
 
+    async def get_item_with_info(self, id: str):
+        item = await self.repository.get_item_with_info_by_id(id)
+        if not item:
+            raise ValueError("Item not found")
+        return ItemWithCategory.model_validate(item)
+
     async def get_all_items(self) -> list[Item]:
         return await self.repository.get_all()
 

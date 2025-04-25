@@ -64,9 +64,12 @@ class ItemRepository:
             .select_from(Item)
             .where(Item.id == id)
         )
-        return result.first()
+        item = result.first()
+        if not item:
+            return None
+        return dict(item._mapping)
 
-    async def get_item_with_info_by_id(self, id: str) -> str | None:
+    async def get_item_with_info_by_id(self, id: str) -> dict| None:
         result = await self.session.execute(
             select(Item.id,
                    Item.name,
@@ -85,8 +88,10 @@ class ItemRepository:
             .join(Department, isouter=True)
             .where(Item.id == id)
         )
-        print(result.all())
-        return result.all()
+        item = result.first()
+        if not item:
+            return None
+        return dict(item._mapping)
 
     async def get_id_by_name(self, name: str) -> str | None:
         result = await self.session.execute(
