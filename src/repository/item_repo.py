@@ -51,11 +51,47 @@ class ItemRepository:
         result = await self.session.execute(select(Item))
         return result.scalars().all()
 
-    async def get_by_id(self, item_id: uuid4) -> Item | None:
+    async def get_by_id(self, id: str) -> Item | None:
         result = await self.session.execute(
-            select(Item).where(Item.id == item_id)
+            select(
+                Item.id,
+                Item.name,
+                Item.category_id,
+                Item.group_id,
+                Item.source_id,
+                Item.operation_id,
+                Item.department_id)
+            .select_from(Item)
+            .where(Item.id == id)
         )
-        return result.scalars().first()
+        item = result.first()
+        if not item:
+            return None
+        return dict(item._mapping)
+
+    async def get_item_with_info_by_id(self, id: str) -> dict| None:
+        result = await self.session.execute(
+            select(Item.id,
+                   Item.name,
+                   Item.description,
+                   Category.name.label('category'),
+                   Group.name.label('group'),
+                   Source.name.label('source'),
+                   Operation.name.label('operation'),
+                   Department.name.label('department')
+                   )
+            .select_from(Item)
+            .join(Category, isouter=True)
+            .join(Group, isouter=True)
+            .join(Source, isouter=True)
+            .join(Operation, isouter=True)
+            .join(Department, isouter=True)
+            .where(Item.id == id)
+        )
+        item = result.first()
+        if not item:
+            return None
+        return dict(item._mapping)
 
     async def get_id_by_name(self, name: str) -> str | None:
         result = await self.session.execute(
@@ -80,7 +116,6 @@ class ItemRepository:
                  .join(Source, isouter=True)
                  .join(Operation, isouter=True)
                  .join(Department, isouter=True)
-                 .limit(1000)
                  )
         result = await self.session.execute(query)
         records = result.all()
