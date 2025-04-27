@@ -56,6 +56,7 @@ class ItemRepository:
             select(
                 Item.id,
                 Item.name,
+                Item.description,
                 Item.category_id,
                 Item.group_id,
                 Item.source_id,
@@ -65,6 +66,7 @@ class ItemRepository:
             .where(Item.id == id)
         )
         item = result.first()
+        print(dict(item._mapping))
         if not item:
             return None
         return dict(item._mapping)
