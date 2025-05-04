@@ -22,7 +22,7 @@ from .group import Group
 from .source import Source
 from .operation import Operation
 from .department import Department
-
+from .status import Status
 
 __all__ = [
     'Item',
@@ -48,5 +48,6 @@ __all__ = [
     'Group',
     'Source',
     'Operation',
-    'Department'
+    'Department',
+    'Status'
 ]
