@@ -16,17 +16,17 @@ class RedressKitConsist(Base):
     quantity: Mapped[Float] = mapped_column(Float, nullable=False, comment="Количество")
     revision: Mapped[String] = mapped_column(String(32), nullable=False, comment="Версия набора ЗИП")
 
-    redress_kit1: Mapped[list['Item']] = relationship(
+    redress_kit: Mapped[list['Item']] = relationship(
         'Item',
         primaryjoin='Item.id == RedressKitConsist.redress_kit_id',
-        back_populates='redress_kit2',
+        back_populates='redress_kit',
         foreign_keys='RedressKitConsist.redress_kit_id'
     )
 
-    item1: Mapped[list['Item']] = relationship(
+    item: Mapped[list['Item']] = relationship(
         'Item',
         primaryjoin='Item.id == RedressKitConsist.item_id',
-        back_populates='redress_kit_consist1',
+        back_populates='redress_kit_consist',
         foreign_keys='RedressKitConsist.item_id'
     )
 
