@@ -12,4 +12,4 @@ class Asset(Base):
     serial_number: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
     equipment_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('item.id'), nullable=False, unique=False)
     is_active: Mapped[bool] = mapped_column(default=True)
-    status: Mapped[UUID] = mapped_column(UUID, ForeignKey('statuses.id'), nullable=False, unique=False)
+    status: Mapped[UUID] = mapped_column(UUID, ForeignKey('statuses.id'), nullable=True, unique=False)
