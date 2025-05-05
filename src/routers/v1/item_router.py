@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,7 +9,10 @@ from src.schemas.item_schema import (
     ItemSchema,
     ItemWithCategory,
     ItemUpdateSchema,
-    ItemCreateSchema)
+    ItemCreateSchema,
+    ItemDeleteResponse,
+    ItemMarkDeleteResponse
+)
 from src.db.database import get_db
 
 
@@ -91,3 +94,21 @@ async def partial_update_item(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 
+@router.delete("/{id}", response_model=ItemDeleteResponse)
+async def delete_item(
+    id: UUID,
+    db: AsyncSession = Depends(get_db)
+):
+    repository = ItemRepository(db)
+    service = ItemService(repository)
+    return await service.delete_item(id)
+
+
+@router.patch("/{item_id}/mark-delete", response_model=ItemMarkDeleteResponse)
+async def mark_delete(
+    item_id: UUID,
+    db: AsyncSession = Depends(get_db)
+):
+    item_repo = ItemRepository(db)
+    item_service = ItemService(item_repo)
+    return await item_service.mark_delete(item_id)

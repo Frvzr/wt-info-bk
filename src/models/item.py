@@ -1,13 +1,13 @@
 import uuid
 from typing import TYPE_CHECKING
 
-from sqlalchemy import UUID, String, ForeignKey
+from sqlalchemy import UUID, String, ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
 if TYPE_CHECKING:
-    from ..models import RedressKitConsist, Category, RedressKit
+    from ..models import RedressKitConsist, Category
 
 
 class Item(Base):
@@ -20,11 +20,12 @@ class Item(Base):
     source_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('sources.id'), nullable=True, unique=False)
     operation_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('operations.id'), nullable=True, unique=False)
     department_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('departments.id'), nullable=True, unique=False)
+    is_active: Mapped[bool] = mapped_column(nullable=False, default=True)
 
-    redress_kit_consist1: Mapped[list['RedressKitConsist']] = relationship(
+    redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
         'RedressKitConsist',
         primaryjoin='Item.id == RedressKitConsist.item_id',
-        back_populates='item1',
+        back_populates='item',
         foreign_keys='RedressKitConsist.item_id'
     )
 
@@ -35,9 +36,12 @@ class Item(Base):
         foreign_keys='Category.id'
     )
 
-    redress_kit2: Mapped[list['Item']] = relationship(
+    redress_kit: Mapped[list['Item']] = relationship(
         'RedressKitConsist',
         primaryjoin='RedressKitConsist.redress_kit_id == Item.id',
-        back_populates='redress_kit1',
+        back_populates='redress_kit',
         foreign_keys='RedressKitConsist.redress_kit_id'
+    )
+    __table_args__ = (
+        Index('ix_items_is_active', 'is_active'),
     )

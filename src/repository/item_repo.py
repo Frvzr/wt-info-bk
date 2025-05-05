@@ -1,6 +1,7 @@
-from uuid import uuid4
+from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.future import select
+from sqlalchemy import delete, select, update
+
 
 from src.models import Item, Category, Group, Source, Operation, Department
 
@@ -16,7 +17,7 @@ class ItemRepository:
         await self.session.refresh(item)
         return item
 
-    async def update(self, item_id: uuid4, data: dict) -> Item:
+    async def update(self, item_id: UUID, data: dict) -> Item | None:
         result = await self.session.execute(
             select(Item).where(Item.id == item_id)
         )
@@ -32,7 +33,7 @@ class ItemRepository:
         await self.session.refresh(item)
         return item
 
-    async def patch(self, item_id: uuid4, data: dict) -> Item | None:
+    async def patch(self, item_id: UUID, data: dict) -> Item | None:
         result = await self.session.execute(
             select(Item).where(Item.id == item_id)
         )
@@ -48,14 +49,15 @@ class ItemRepository:
         return item
 
     async def get_all(self):
-        result = await self.session.execute(select(Item))
+        result = await self.session.execute(select(Item).where(Item.is_active == "True"))
         return result.scalars().all()
 
-    async def get_by_id(self, id: str) -> Item | None:
+    async def get_by_id(self, id: UUID) -> Item | None:
         result = await self.session.execute(
             select(
                 Item.id,
                 Item.name,
+                Item.description,
                 Item.category_id,
                 Item.group_id,
                 Item.source_id,
@@ -64,12 +66,9 @@ class ItemRepository:
             .select_from(Item)
             .where(Item.id == id)
         )
-        item = result.first()
-        if not item:
-            return None
-        return dict(item._mapping)
+        return result.mappings().first()
 
-    async def get_item_with_info_by_id(self, id: str) -> dict| None:
+    async def get_item_with_info_by_id(self, id: UUID) -> Item | None:
         result = await self.session.execute(
             select(Item.id,
                    Item.name,
@@ -88,10 +87,7 @@ class ItemRepository:
             .join(Department, isouter=True)
             .where(Item.id == id)
         )
-        item = result.first()
-        if not item:
-            return None
-        return dict(item._mapping)
+        return result.mappings().first()
 
     async def get_id_by_name(self, name: str) -> str | None:
         result = await self.session.execute(
@@ -120,3 +116,23 @@ class ItemRepository:
         result = await self.session.execute(query)
         records = result.all()
         return list(records)
+
+    async def delete_item(self, id: UUID) -> bool:
+        try:
+            item = delete(Item).where(Item.id == id)
+            result = await self.session.execute(item)
+            await self.session.commit()
+            return result.rowcount > 0
+        except Exception as e:
+            await self.session.rollback()
+            raise ValueError(f"Delete failed: {str(e)}")
+
+    async def mark_delete(self, item_id: UUID) -> bool:
+        query = (update(Item)
+                  .where(Item.id == item_id)
+                  .values(is_active=False)
+                  .execution_options(synchronize_session="fetch")
+                 )
+        item = await self.session.execute(query)
+        await self.session.commit()
+        return item

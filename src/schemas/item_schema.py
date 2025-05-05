@@ -55,3 +55,14 @@ class ItemWithCategory(BaseModel):
     department: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class ItemDeleteResponse(BaseModel):
+    status: str
+    deleted_id: UUID4
+
+
+class ItemMarkDeleteResponse(BaseModel):
+    id: UUID4
+    status: str
+    is_active: bool

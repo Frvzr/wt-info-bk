@@ -14,15 +14,15 @@ from .role import Role
 from .user_role import UserRole
 from .checklist_steps import ChecklistSteps
 from .checklist_templates import ChecklistTemplate
-from .service_equipment import ServiceEquipment
+from .redress_equipment import RedressEquipment
 from .template_equipment import TemplateEquipment
 from .template_steps import TemplateSteps
-from .service_steps import ServiceSteps
+from .redress_steps import RedressSteps
 from .group import Group
 from .source import Source
 from .operation import Operation
 from .department import Department
-
+from .status import Status
 
 __all__ = [
     'Item',
@@ -41,12 +41,13 @@ __all__ = [
     'UserRole',
     'ChecklistSteps',
     'ChecklistTemplate',
-    'ServiceEquipment',
+    'RedressEquipment',
     'TemplateEquipment',
     'TemplateSteps',
-    'ServiceSteps',
+    'RedresseSteps',
     'Group',
     'Source',
     'Operation',
-    'Department'
+    'Department',
+    'Status'
 ]
