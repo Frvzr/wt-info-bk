@@ -1,12 +1,12 @@
 from src.repository.service_equipment_repo import ServiceEquipmentRepository
-from src.models import ServiceEquipment
+from src.models import RedressEquipment
 
 
 class ServiceEquipmentService:
     def __init__(self, repository: ServiceEquipmentRepository):
         self.repository = repository
 
-    async def get_all_service_equipments(self) -> list[ServiceEquipment]:
+    async def get_all_service_equipments(self) -> list[RedressEquipment]:
         return await self.repository.get_all()
 
     async def get_redress_by_id(self, id: str) -> list:

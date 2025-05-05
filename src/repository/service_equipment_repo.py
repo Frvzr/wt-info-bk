@@ -1,24 +1,24 @@
 from uuid import uuid4
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from src.models import (ServiceEquipment, Asset, ServiceLevel, Location, TemplateEquipment,
-                        ChecklistTemplate,TemplateSteps, ChecklistSteps, ServiceSteps)
+from src.models import (RedressEquipment, Asset, ServiceLevel, Location, TemplateEquipment,
+                        ChecklistTemplate, TemplateSteps, ChecklistSteps, RedressSteps)
 
 
 class ServiceEquipmentRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_all(self) -> list[ServiceEquipment]:
+    async def get_all(self) -> list[RedressEquipment]:
         query = await self.session.execute(
-            select(ServiceEquipment.id,
+            select(RedressEquipment.id,
                    Asset.serial_number,
                    ServiceLevel.name.label('level'),
                    Location.name.label('location'),
-                   ServiceEquipment.completed_technician.label('alias'),
-                   ServiceEquipment.completed_date,
-                   ServiceEquipment.is_completed)
-            .select_from(ServiceEquipment)
+                   RedressEquipment.completed_to.label('alias'),
+                   RedressEquipment.completed_date,
+                   RedressEquipment.status)
+            .select_from(RedressEquipment)
             .join(Asset, isouter=True)
             .join(ServiceLevel)
             .join(Location)
@@ -31,13 +31,13 @@ class ServiceEquipmentRepository:
             select(
                     ChecklistSteps.name.label('step'),
                     ChecklistSteps.description,
-                    ServiceSteps.answer,
-                    ServiceSteps.technician,
-                    ServiceSteps.completed_date
+                    RedressSteps.answer,
+                    RedressSteps.technician,
+                    RedressSteps.completed_date
                    )
-            .select_from(ServiceSteps)
+            .select_from(RedressSteps)
             .join(ChecklistSteps)
-            .where(ServiceEquipment.id == redress_id)
+            .where(RedressEquipment.id == redress_id)
         )
         result = query.all()
         return list(result)

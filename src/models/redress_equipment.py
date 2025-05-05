@@ -13,6 +13,7 @@ class RedressEquipment(Base):
     template_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('template_equipment.id'), nullable=False, unique=False)
     # assigned_to: Mapped[UUID] = mapped_column(UUID, ForeignKey('users.id'), nullable=False, unique=False)
     assigned_to: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
+    completed_to: Mapped[String] = mapped_column(String(32), nullable=False, unique=True)
     location: Mapped[UUID] = mapped_column(UUID, ForeignKey('location.id'), nullable=False)
     completed_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     status: Mapped[String] = mapped_column(String(16), nullable=False, default='draft')
