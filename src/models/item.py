@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
-    from ..models import RedressKitConsist, Category
+    from ..models import RedressKitConsist, Category, Asset
 
 
 class Item(Base):
@@ -42,6 +42,14 @@ class Item(Base):
         back_populates='redress_kit',
         foreign_keys='RedressKitConsist.redress_kit_id'
     )
+
+    asset: Mapped['Asset'] = relationship(
+        'Asset',
+        primaryjoin='Item.id == Asset.equipment_id',
+        back_populates='equipment',
+        foreign_keys='Asset.equipment_id'
+    )
+
     __table_args__ = (
         Index('ix_items_is_active', 'is_active'),
     )

@@ -44,7 +44,7 @@ __all__ = [
     'RedressEquipment',
     'TemplateEquipment',
     'TemplateSteps',
-    'RedresseSteps',
+    'RedressSteps',
     'Group',
     'Source',
     'Operation',

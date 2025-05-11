@@ -14,3 +14,7 @@ class ChecklistTemplate(Base):
     level: Mapped[UUID] = mapped_column(UUID, ForeignKey('service_level.id'), nullable=False)
     version: Mapped[String] = mapped_column(String(32), nullable=False)
     is_active: Mapped[bool] = mapped_column(default=True)
+
+    __table_args__ = {
+        'comment': 'Таблица с шаблонами сервиса оборудования'
+    }

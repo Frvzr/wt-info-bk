@@ -11,3 +11,7 @@ class TemplateEquipment(Base):
     template_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('checklist_templates.id'), nullable=False, unique=False)
     equipment_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('item.id'), nullable=False, unique=False)
     is_active: Mapped[bool] = mapped_column(default=True)
+
+    __table_args__ = {
+        'comment': 'Дополнительная таблица шаблон - шаг'
+    }
