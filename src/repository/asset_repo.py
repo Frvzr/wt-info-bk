@@ -19,3 +19,14 @@ class AssetRepository:
 
         result = query.all()
         return list(result)
+
+    async def get_by_serial(self, serial_number: str) -> Asset | None:
+        result = await self.session.execute(
+            select(Asset.id,
+                   Asset.serial_number,
+                   Asset.equipment_id,
+                   Asset.is_active,
+                   Asset.status)
+            .where(Asset.serial_number == serial_number)
+        )
+        return result.mappings().first()

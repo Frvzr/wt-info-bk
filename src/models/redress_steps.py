@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import uuid4
 
-from sqlalchemy import UUID, ForeignKey, String, DateTime, PrimaryKeyConstraint, Text
+from sqlalchemy import UUID, ForeignKey, String, DateTime, Text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -16,5 +16,8 @@ class RedressSteps(Base):
     answer: Mapped[JSONB] = mapped_column(JSONB(), nullable=True)
     technician: Mapped[String] = mapped_column(String(32), nullable=True)
     completed_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
-    comment: Mapped[Text] = mapped_column(Text, nullable=False, unique=True)
+    comment: Mapped[Text] = mapped_column(Text, nullable=True, unique=True)
 
+    __table_args__ = {
+        'comment': 'Таблица с ответами пользователей на шаги сервиса оборудования'
+    }

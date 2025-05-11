@@ -11,3 +11,7 @@ class TemplateSteps(Base):
     step_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('checklist_steps.id'), nullable=False, unique=False)
     order: Mapped[Integer] = mapped_column(Integer, nullable=False, unique=False)
     is_mandatory: Mapped[bool] = mapped_column(Boolean, default=True)
+
+    __table_args__ = {
+        'comment': 'Дополнительная таблица шаблон - шаг'
+    }
