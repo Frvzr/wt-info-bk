@@ -3,12 +3,11 @@ from .item import Item
 from .redress_kit_consist import RedressKitConsist
 from .asset import Asset
 from .category import Category
-from .equipment import Equipment
 from .location import Location
 from .part import Part
 from .service_level import ServiceLevel
 from .size import Size
-from .tool import Tool
+from .types import Type
 from .user import User
 from .role import Role
 from .user_role import UserRole
@@ -23,6 +22,7 @@ from .source import Source
 from .operation import Operation
 from .department import Department
 from .status import Status
+from .units import Unit
 
 __all__ = [
     'Item',
@@ -30,12 +30,11 @@ __all__ = [
     'RedressKit',
     'Asset',
     'Category',
-    'Equipment',
     'Location',
     'Part',
     'ServiceLevel',
     'Size',
-    'Tool',
+    'Type',
     'User',
     'Role',
     'UserRole',
@@ -49,5 +48,6 @@ __all__ = [
     'Source',
     'Operation',
     'Department',
-    'Status'
+    'Status',
+    'Unit'
 ]

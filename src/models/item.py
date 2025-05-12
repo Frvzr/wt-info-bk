@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
-    from ..models import RedressKitConsist, Category, Asset
+    from ..models import RedressKitConsist, Category, Asset, Type, Unit
 
 
 class Item(Base):
@@ -20,6 +20,8 @@ class Item(Base):
     source_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('sources.id'), nullable=True, unique=False)
     operation_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('operations.id'), nullable=True, unique=False)
     department_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('departments.id'), nullable=True, unique=False)
+    type_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('types.id'), nullable=True, unique=False)
+    unit_id: Mapped[UUID] = mapped_column(UUID, ForeignKey('units.id'), nullable=True, unique=False)
     is_active: Mapped[bool] = mapped_column(nullable=False, default=True)
 
     redress_kit_consist: Mapped[list['RedressKitConsist']] = relationship(
@@ -33,7 +35,7 @@ class Item(Base):
         'Category',
         primaryjoin='Item.id == Category.id',
         back_populates='item',
-        foreign_keys='Category.id'
+        foreign_keys='Item.category_id'
     )
 
     redress_kit: Mapped[list['Item']] = relationship(
@@ -48,6 +50,20 @@ class Item(Base):
         primaryjoin='Item.id == Asset.equipment_id',
         back_populates='equipment',
         foreign_keys='Asset.equipment_id'
+    )
+
+    type: Mapped['Type'] = relationship(
+        'Type',
+        primaryjoin='Item.type_id == Type.id',
+        back_populates='item',
+        foreign_keys='Item.type_id'
+    )
+
+    unit: Mapped['Unit'] = relationship(
+        'Unit',
+        primaryjoin='Item.unit_id == Unit.id',
+        back_populates='item',
+        foreign_keys='Item.unit_id'
     )
 
     __table_args__ = (
