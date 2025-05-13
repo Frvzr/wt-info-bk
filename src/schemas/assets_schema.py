@@ -17,3 +17,10 @@ class Asset(AssetBase):
     status: UUID4
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class AssetListSchema(AssetBase):
+    id: UUID4
+    part_number: str
+    description: str | None = None
+    status: str | None = None
