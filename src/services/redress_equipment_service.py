@@ -27,6 +27,10 @@ class RedressEquipmentService:
         history = await self.redress_repo.get_redress_history(asset_id)
         return history
 
+    async def get_full_asset_history(self) -> list[RedressEquipment]:
+        history = await self.redress_repo.get_redress_history()
+        return history
+
     async def get_user_redresses(self, username: str) -> list[RedressEquipment]:
         redresses = await self.redress_repo.get_user_redresses(username)
         return [RedressEquipment.model_validate(item) for item in redresses]

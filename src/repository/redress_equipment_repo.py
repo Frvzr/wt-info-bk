@@ -63,8 +63,8 @@ class RedressEquipmentRepository:
         result = query.all()
         return list(result)
 
-    async def get_redress_history(self, asset_id: UUID) -> list[RedressEquipment]:
-        query = await self.session.execute(
+    async def get_redress_history(self, asset_id: UUID | None = None) -> list[RedressEquipment] | None:
+        query = (
             select(
                 RedressEquipment.id,
                 Asset.serial_number,
@@ -73,17 +73,25 @@ class RedressEquipmentRepository:
                 RedressEquipment.completed_to,
                 RedressEquipment.completed_date,
                 Location.name.label('location')
-                   )
-            .select_from(RedressEquipment)
+            )
+                .select_from(RedressEquipment)
+        )
+
+        query = (
+            query
             .join(Asset, Asset.id == RedressEquipment.asset_id)
             .join(Item, Asset.equipment_id == Item.id)
             .join(Status, Status.id == RedressEquipment.tag)
             .join(Location, Location.id == RedressEquipment.location)
-            .where(RedressEquipment.asset_id == asset_id)
-            .order_by(RedressEquipment.completed_date.desc())
         )
-        result = query.all()
-        return list(result)
+
+        if asset_id is not None:
+            query = query.where(RedressEquipment.asset_id == asset_id)
+
+        query = query.order_by(RedressEquipment.completed_date.desc())
+
+        result = await self.session.execute(query)
+        return list(result.all())
 
     async def create_redress(self, data: dict) -> RedressEquipment:
         redress = RedressEquipment(**data)

@@ -20,6 +20,6 @@ class Type(Base):
     item: Mapped['Item'] = relationship(
         'Item',
         primaryjoin='Item.type_id == Type.id',
-        back_populates='item',
+        back_populates='type',
         foreign_keys='Item.type_id'
     )

@@ -33,7 +33,7 @@ class Item(Base):
 
     category: Mapped['Category'] = relationship(
         'Category',
-        primaryjoin='Item.id == Category.id',
+        primaryjoin='Item.category_id == Category.id',
         back_populates='item',
         foreign_keys='Item.category_id'
     )

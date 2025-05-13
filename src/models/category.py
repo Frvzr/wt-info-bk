@@ -19,9 +19,9 @@ class Category(Base):
 
     item: Mapped['Item'] = relationship(
         'Item',
-        primaryjoin='Item.id == Category.id',
+        primaryjoin='Item.category_id == Category.id',
         back_populates='category',
-        foreign_keys='Category.id'
+        foreign_keys='Item.category_id'
     )
 
     children: Mapped[list["Category"]] = relationship(back_populates="parent")

@@ -17,9 +17,9 @@ class Unit(Base):
     description: Mapped[String] = mapped_column(String(128), nullable=True)
     is_active: Mapped[bool] = mapped_column(nullable=False, default=True)
 
-    unit: Mapped['Item'] = relationship(
+    item: Mapped['Item'] = relationship(
         'Item',
         primaryjoin='Item.unit_id == Unit.id',
-        back_populates='item',
+        back_populates='unit',
         foreign_keys='Item.unit_id'
     )

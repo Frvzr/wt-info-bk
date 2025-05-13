@@ -31,6 +31,12 @@ async def get_asset_history(
 ):
     return await service.get_asset_history(asset_id)
 
+@router.get("/history/", response_model=list[RedressActivitySchema])
+async def get_asset_history(
+    service: RedressEquipmentService = Depends(get_redress_service)
+):
+    return await service.get_full_asset_history()
+
 
 @router.get("/user-redresses", response_model=list[RedressEquipment])
 async def get_user_redresses(
