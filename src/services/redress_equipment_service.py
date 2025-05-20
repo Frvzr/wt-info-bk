@@ -23,7 +23,7 @@ class RedressEquipmentService:
             return None
         return Asset.model_validate(asset)
 
-    async def get_asset_history(self, asset_id: UUID) -> list[RedressEquipment]:
+    async def get_asset_history(self, asset_id: UUID | None = None) -> list[RedressEquipment]:
         history = await self.redress_repo.get_redress_history(asset_id)
         return history
 

@@ -81,14 +81,14 @@ class RedressEquipmentRepository:
             query
             .join(Asset, Asset.id == RedressEquipment.asset_id)
             .join(Item, Asset.equipment_id == Item.id)
-            .join(Status, Status.id == RedressEquipment.tag)
-            .join(Location, Location.id == RedressEquipment.location)
+            .join(Status, Status.id == RedressEquipment.tag_id)
+            .join(Location, Location.id == RedressEquipment.location_id)
         )
 
         if asset_id is not None:
             query = query.where(RedressEquipment.asset_id == asset_id)
 
-        query = query.order_by(RedressEquipment.completed_date.desc())
+        query = query.order_by(RedressEquipment.completed_date.desc()).limit(100)
 
         result = await self.session.execute(query)
         return list(result.all())
