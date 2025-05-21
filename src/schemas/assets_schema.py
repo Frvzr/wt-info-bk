@@ -6,8 +6,10 @@ class AssetBase(BaseModel):
 
 
 class AssetSchema(AssetBase):
-    equipment_id: UUID4
-    status_id: UUID4
+    id: UUID4
+    part_number: str
+    description: str | None = None
+    status: str
 
 
 class Asset(AssetBase):

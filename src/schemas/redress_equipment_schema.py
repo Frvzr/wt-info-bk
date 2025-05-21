@@ -6,11 +6,11 @@ class RedressActivitySchema(BaseModel):
     id: UUID4
     serial_number: str
     part_number: str
-    #level: str
+    level: str
     tag: str
     completed_to: str
     completed_date: datetime
-    #top_level: str
+    top_tool: str
     #tool_time: str
     location: str
     #last_action: str

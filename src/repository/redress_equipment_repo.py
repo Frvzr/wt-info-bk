@@ -2,6 +2,9 @@ from uuid import UUID
 from datetime import datetime
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.orm import aliased
+from typing_inspection.typing_objects import alias
+
 from src.models import (RedressEquipment, Asset, ServiceLevel, Location, TemplateEquipment,
                         ChecklistTemplate, Item, ChecklistSteps, RedressSteps, Status)
 
@@ -64,25 +67,32 @@ class RedressEquipmentRepository:
         return list(result)
 
     async def get_redress_history(self, asset_id: UUID | None = None) -> list[RedressEquipment] | None:
+        main_tool = aliased(Asset, name='main_asset')
+        top_tool = aliased(Asset, name='top_level')
+
         query = (
             select(
                 RedressEquipment.id,
-                Asset.serial_number,
+                main_tool.serial_number,
                 Item.name.label('part_number'),
+                ServiceLevel.name.label('level'),
                 Status.name.label('tag'),
                 RedressEquipment.completed_to,
                 RedressEquipment.completed_date,
-                Location.name.label('location')
+                Location.name.label('location'),
+                top_tool.serial_number.label('top_tool')
             )
                 .select_from(RedressEquipment)
         )
 
         query = (
             query
-            .join(Asset, Asset.id == RedressEquipment.asset_id)
-            .join(Item, Asset.equipment_id == Item.id)
+            .join(main_tool, main_tool.id == RedressEquipment.asset_id)
+            .join(Item, main_tool.equipment_id == Item.id)
             .join(Status, Status.id == RedressEquipment.tag_id)
             .join(Location, Location.id == RedressEquipment.location_id)
+            .join(ServiceLevel, ServiceLevel.id == RedressEquipment.level_id)
+            .join(top_tool, top_tool.id == RedressEquipment.top_tool)
         )
 
         if asset_id is not None:

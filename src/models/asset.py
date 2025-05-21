@@ -3,11 +3,10 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import String, UUID, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from .base import Base
 
 if TYPE_CHECKING:
-    from ..models import Item
+    from ..models import Item, RedressEquipment
 
 
 class Asset(Base):
@@ -24,6 +23,22 @@ class Asset(Base):
         back_populates='asset',
         foreign_keys='Asset.equipment_id'
     )
+
+    main_asset: Mapped[list['RedressEquipment']] = relationship(
+        'RedressEquipment',
+        primaryjoin='Asset.id == RedressEquipment.asset_id',
+        back_populates='sn',
+        foreign_keys='RedressEquipment.asset_id'
+    )
+
+    top_level: Mapped[list['RedressEquipment']] = relationship(
+        'RedressEquipment',
+        primaryjoin='Asset.id == RedressEquipment.top_tool',
+        back_populates='top',
+        foreign_keys='RedressEquipment.top_tool'
+    )
+
+
 
     __table_args__ = {
         "comment": "Таблица с оборудованием (активами)"
