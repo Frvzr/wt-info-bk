@@ -7,7 +7,7 @@ from src.repository.redress_equipment_repo import RedressEquipmentRepository
 from src.schemas.redress_equipment_schema import (
     RedressEquipmentCreate, RedressStepCreate,
     ChecklistTemplate, RedressEquipment, RedressStep,
-    RedressActivitySchema
+    RedressUserHistorySchema
 )
 from src.schemas.assets_schema import Asset
 
@@ -33,7 +33,7 @@ class RedressEquipmentService:
 
     async def get_user_redresses(self, username: str) -> list[RedressEquipment]:
         redresses = await self.redress_repo.get_user_redresses(username)
-        return [RedressEquipment.model_validate(item) for item in redresses]
+        return redresses
 
     async def get_template(self, equipment_id: UUID, level_id: UUID) -> Optional[ChecklistTemplate]:
         template = await self.redress_repo.get_template_by_level(equipment_id, level_id)

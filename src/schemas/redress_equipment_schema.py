@@ -16,6 +16,16 @@ class RedressActivitySchema(BaseModel):
     #last_action: str
 
 
+class RedressUserHistorySchema(BaseModel):
+    id: UUID4
+    serial_number: str
+    part_number: str
+    level: str
+    created_at: datetime
+    completed_date: datetime
+    status: str
+
+
 class RedressEquipmentSchema(BaseModel):
     id: UUID4
     serial_number: str

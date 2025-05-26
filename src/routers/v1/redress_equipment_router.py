@@ -3,7 +3,8 @@ from fastapi.security import OAuth2PasswordBearer
 from uuid import UUID
 from src.schemas.redress_equipment_schema import (
     RedressEquipmentCreate, RedressEquipment,
-    RedressStepCreate, RedressStep, RedressActivitySchema
+    RedressStepCreate, RedressStep, RedressActivitySchema,
+    RedressUserHistorySchema
 )
 from src.schemas.assets_schema import Asset
 from src.services.redress_equipment_service import RedressEquipmentService
@@ -38,22 +39,22 @@ async def get_asset_history(
     return await service.get_full_asset_history()
 
 
-@router.get("/user-redresses", response_model=list[RedressEquipment])
+@router.get("/user-redresses", response_model=list[RedressUserHistorySchema])
 async def get_user_redresses(
-    token: str = Depends(oauth2_scheme),
+    #token: str = Depends(oauth2_scheme),
     service: RedressEquipmentService = Depends(get_redress_service)
 ):
-    username = "current_user"  # Заглушка
+    username = "RU152"  # Заглушка
     return await service.get_user_redresses(username)
 
 
 @router.post("/create", response_model=RedressEquipment)
 async def create_redress(
     data: RedressEquipmentCreate,
-    token: str = Depends(oauth2_scheme),
+    #token: str = Depends(oauth2_scheme),
     service: RedressEquipmentService = Depends(get_redress_service)
 ):
-    username = "current_user"  # Заглушка
+    username = "RU152"  # Заглушка
     return await service.create_redress(data, username)
 
 
@@ -61,17 +62,17 @@ async def create_redress(
 async def add_redress_step(
     redress_id: UUID,
     step_data: RedressStepCreate,
-    token: str = Depends(oauth2_scheme),
+    #token: str = Depends(oauth2_scheme),
     service: RedressEquipmentService = Depends(get_redress_service)
 ):
-    username = "current_user"
+    username = "RU152"
     return await service.add_step_to_redress(redress_id, step_data, username)
 
 
 @router.post("/{redress_id}/complete", response_model=RedressEquipment)
 async def complete_redress(
     redress_id: UUID,
-    token: str = Depends(oauth2_scheme),
+    #token: str = Depends(oauth2_scheme),
     service: RedressEquipmentService = Depends(get_redress_service)
 ):
     return await service.complete_redress(redress_id)

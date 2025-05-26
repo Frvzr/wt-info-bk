@@ -3,7 +3,6 @@ from datetime import datetime
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import aliased
-from typing_inspection.typing_objects import alias
 
 from src.models import (RedressEquipment, Asset, ServiceLevel, Location, TemplateEquipment,
                         ChecklistTemplate, Item, ChecklistSteps, RedressSteps, Status)
@@ -13,30 +12,33 @@ class RedressEquipmentRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_all(self) -> list[RedressEquipment]:
-        query = await self.session.execute(
-            select(RedressEquipment.id,
-                   Asset.serial_number,
-                   ServiceLevel.name.label('level'),
-                   Location.name.label('location'),
-                   RedressEquipment.completed_to.label('alias'),
-                   RedressEquipment.completed_date,
-                   RedressEquipment.status)
-            .select_from(RedressEquipment)
-            .join(Asset, isouter=True)
-            .join(ServiceLevel)
-            .join(Location)
-        )
-        result = query.all()
-        return list(result)
-
     async def get_user_redresses(self, username: str) -> list[RedressEquipment]:
-        result = await self.session.execute(
-            select(RedressEquipment)
-            .where(RedressEquipment.completed_to == username)
-            .order_by(RedressEquipment.completed_date.desc())
+        query = (
+            select(
+                RedressEquipment.id,
+                Asset.serial_number,
+                Item.name.label('part_number'),
+                ServiceLevel.name.label('level'),
+                RedressEquipment.created_at,
+                RedressEquipment.completed_date,
+                RedressEquipment.status
+            )
+            .select_from(RedressEquipment)
         )
-        return list(result.scalars().all())
+
+        query = (
+            query
+            .join(Asset, RedressEquipment.asset_id == Asset.id)
+            .join(Item, Asset.equipment_id == Item.id)
+            .join(ServiceLevel, ServiceLevel.id == RedressEquipment.level_id)
+        )
+
+        query = query.where(RedressEquipment.assigned_to == username)
+
+        query = query.order_by(RedressEquipment.completed_date.desc()).limit(100)
+
+        result = await self.session.execute(query)
+        return list(result.all())
 
     async def get_template_by_level(self, equipment_id: UUID, level_id: UUID) -> ChecklistTemplate | None:
         result = await self.session.execute(
