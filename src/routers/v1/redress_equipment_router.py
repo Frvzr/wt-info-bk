@@ -39,12 +39,12 @@ async def get_asset_history(
     return await service.get_full_asset_history()
 
 
-@router.get("/user-redresses", response_model=list[RedressUserHistorySchema])
+@router.get("/user-redresses/{username}", response_model=list[RedressUserHistorySchema])
 async def get_user_redresses(
     #token: str = Depends(oauth2_scheme),
+    username: str,
     service: RedressEquipmentService = Depends(get_redress_service)
 ):
-    username = "RU152"  # Заглушка
     return await service.get_user_redresses(username)
 
 
@@ -54,7 +54,7 @@ async def create_redress(
     #token: str = Depends(oauth2_scheme),
     service: RedressEquipmentService = Depends(get_redress_service)
 ):
-    username = "RU152"  # Заглушка
+    username = "RU152"
     return await service.create_redress(data, username)
 
 
